@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "concurrently -k 'npm:start:server' 'npm:build'",
 		"build": "esbuild src/client/index.tsx --bundle --outfile=public/client.js --watch",
-		"start:server": "node -r ts-node/register src/server.ts"
+		"start:server": "node src/server.mjs"
 	},
 	"keywords": [],
 	"author": "Marvin Hagemeister <hello@marvinh.dev>",

@@ -15,7 +15,9 @@ const useModule = (hash: string, props: { [key: string]: any }) => {
   useEffect(() => {
     fetch(`/preact?module=${hash}&state=${props.state}`).then(d => {
       return d.text();
-    }).then(parse);
+    }).then(r => {
+      return parse(JSON.parse(r));
+    });
   }, [props.state]);
 }
 
@@ -25,7 +27,7 @@ const ServerLoader = ({ hash, ...props }: { [key: string]: any }) => {
 }
 
 const App = () => {
-  const [state, setState] = useState(false);
+  const [state, setState] = useState(true);
   return (
     <main>
       <h1>
@@ -42,13 +44,13 @@ const App = () => {
         <div class="server-component">
           <h2 class="area-title">Server Component A</h2>
           <div data-root="J0">
-            <ServerLoader hash="data.server.js#ServerComponent" state={state} />
+            <ServerLoader hash="data.server.mjs|ServerComponent" state={state} />
           </div>
         </div>
         <div class="server-component">
           <h2 class="area-title">Server Component B</h2>
           <div data-root="J1">
-            <ServerLoader hash="data.server.js#ServerComponent2" state={state} />
+            <ServerLoader hash="data.server.mjs|ServerComponent2" state={state} />
           </div>
         </div>
       </div>

@@ -30,20 +30,17 @@ function toVNode(input: StreamedVNode): ComponentChildren {
 	return input;
 }
 
-export function parse(input: string) {
-	const commands = input.split("\n").filter(Boolean);
+export function parse(input: object) {
+	const commands = Object.keys(input);
 
 	// TODO: Add support for adding script tags
 	commands.forEach(cmd => {
-		const idx = cmd.indexOf(":");
-		const raw = cmd.slice(idx + 1);
-		const data = JSON.parse(raw) as StreamedVNode;
+		const data = input[cmd];
 
 		switch (cmd[0]) {
 			case "J": {
 				const vnode = toVNode(data);
-				const rootId = cmd.slice(0, idx);
-				const selector = `[data-root="${rootId}"]`;
+				const selector = `[data-root="${cmd}"]`;
 				const root = document.querySelector(selector);
 
 				if (!root) {
